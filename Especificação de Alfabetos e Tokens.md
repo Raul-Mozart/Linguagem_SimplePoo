@@ -8,7 +8,7 @@
 Identificador → regex: `[A-Za-z_][A-Za-z0-9_]*`
 
 ### KEYWORD
-Palavras-reservadas → lista: `class`, `struct`, `interface`, `extends`, `implements`, `new`, `this`, `super`, `function`, `void`, `var`, `let`, `const`, `return`, `if`, `else`, `switch`, `case`, `default`, `break`, `continue`, `for`, `foreach`, `while`, `do`, `true`, `false`, `null`, `public`, `private`, `protected`, `static`
+Palavras-reservadas → lista: `class`, `struct`, `interface`, `extends`, `implements`, `new`, `this`, `super`, `function`, `void`, `var`, `let`, `const`, `return`, `if`, `else`, `switch`, `case`, `default`, `break`, `continue`, `for`, `foreach`, `while`, `do`, `true`, `false`, `null`, `public`, `private`, `protected`, `static`, `int`, `float`, `string`, `bool`, `list`, `dict`
 
 ### NUMBER
 Literais numéricos
