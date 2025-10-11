@@ -1,37 +1,64 @@
-**Especificação completa do alfabeto da linguagem**
+# Especificação completa do alfabeto da linguagem
 
-Alfabeto:{a-z,A-Z,0-9,\!,@,\#,$,&,.,+,-,\*,/,%,(,),\>,\<,=,”,’,{,},\[,\],;,,,:,\\};  
-camelCase;
+Σ = { A..Z, a..z, 0..9, _, +, -, *, /, %, =, <, >, !, &, |, ^, ~, ?, :, ., ,, ;, (, ), [, ], {, }, ", ', `, /, *, \\, espaço, tab, newline, carriage return }
 
-Definição formal de todos os tipos de tokens
+## Definição formal de todos os tipos de tokens
 
-Tokens: if,else, else if,for,while,function,string,int,float,bool,list,var,in,class,return,+,-,\*,/,%,and,or,\<,\>,\<=,\>=,=,==,{,},\[,\],(,),.,**,**,;,:,\\n,\\,not
+### IDENT
+Identificador → regex: `[A-Za-z_][A-Za-z0-9_]*`
 
-Exemplos concretos de programas válidos na linguagem
+### KEYWORD
+Palavras-reservadas → lista: `class`, `struct`, `interface`, `extends`, `implements`, `new`, `this`, `super`, `func`, `void`, `var`, `let`, `const`, `return`, `if`, `else`, `switch`, `case`, `default`, `break`, `continue`, `for`, `foreach`, `while`, `do`, `true`, `false`, `null`, `public`, `private`, `protected`, `static`
 
-1\)  
-float numero \= 10.0;
+### NUMBER
+Literais numéricos
+- Decimal: `\d+(\.\d+)?([eE][+-]?\d+)?`
 
-function parImpar(num)  
-{  
-  if (num % 2 \== 0\)  
-{  
-return “É par”;  
-} else  
-{  
-	return “É impar”  
-}  
+### STRING
+Literais string
+- Aspas duplas: `"(?:\\.|[^"\\])*"`
+- Aspas simples: `'(?:\\.|[^'\\])*'`
+
+### CHAR
+Literal caractere: `'(?:\\.|[^'\\])'`
+
+### COMMENT
+- Comentário de linha: `\/\/[^]*`
+- Comentário de bloco: `/\*(?:.|\n|\r)*?\*/`
+
+### OPERATOR
+- Operadores compostos (prioridade): `==` `!=` `<=` `>=` `&&` `||` `++` `--` `+=` `-=` `*=` `/=` `%=` `<<=` `>>=` `&=` `|=` `^=` `=>` `->` `::`
+- Operadores simples: `+` `-` `*` `/` `%` `=` `<` `>` `!` `&` `|` `^` `~` `?` `:`
+
+### DELIMITERS
+`(` `)` `{` `}` `[` `]` `;` `,` `.`
+
+### WHITESPACE
+`[ \t\r\n]+` → ignorado (conta linha/coluna)
+
+### ERROR_LEX
+Qualquer caractere não reconhecido → erro léxico
+
+## Exemplos concretos de programas válidos na linguagem
+
+### 1)
+float numero = 10.0;
+function parImpar(num)
+{
+if (num % 2 == 0)
+{
+return "É par";
+} else
+{
+return "É impar"
 }
-
+}
 print(parImpar(numero));
 
-2\)
-
-list numeros \= \[1,2,3,4,5\];
-
-for (var i \= 0; i \< 5; i \= i \+ 1\)  
-{  
-	numeros\[i\] \= numeros\[i\] \+ 1;  
+### 2)
+list numeros = [1,2,3,4,5];
+for (var i = 0; i < 5; i = i + 1)
+{
+numeros[i] = numeros[i] + 1;
 }
-
-print(numeros)  
+print(numeros)
