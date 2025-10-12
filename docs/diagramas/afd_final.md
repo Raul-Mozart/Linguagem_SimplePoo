@@ -1,324 +1,182 @@
-# Diagrama do Autômato Finito Determinístico (AFD) Final
+# Diagramas dos Autômatos Determinísticos da Linguagem SimplePoo
 
-Este documento apresenta o AFD resultante da conversão do AFN usado no analisador léxico.
+Cada autômato descrito abaixo foi construído manualmente utilizando tabelas
+explícitas de transição. Os diagramas em Mermaid documentam o comportamento
+de cada categoria de token sem depender de expressões regulares.
 
-## 🎯 Visão Geral
-
-O AFD foi construído através do **Algoritmo de Construção de Subconjuntos**, que converte autômatos não-determinísticos (AFN) em determinísticos (AFD). O processo envolve:
-
-1. Calcular fechamento-epsilon dos estados
-2. Criar estados do AFD como conjuntos de estados do AFN
-3. Construir tabela de transições determinística
-4. Identificar estados de aceitação
-
-## 📊 Estatísticas do AFD
-
-- **Linguagem reconhecida**: Tokens da linguagem proposta
-- **Método de construção**: Algoritmo de Construção de Subconjuntos
-- **Total de tokens**: 25+ categorias diferentes
-- **Redução de complexidade**: AFN → AFD (determinização completa)
-
-## 🔤 AFD para IDENTIFICADORES
-
-Reconhece: `[A-Za-z_][A-Za-z0-9_]*`
+## KEYWORD (palavras reservadas)
 
 ```mermaid
 stateDiagram-v2
-    direction LR
-    
-    [*] --> q0
-    
-    q0 --> q1: A-Z, a-z, _
-    q1 --> q1: A-Z, a-z, 0-9, _
-    q1 --> [*]
-    
-    note right of q0: Estado inicial
-    note right of q1: Estado final (aceita)
+    [*] --> K0
+    K0 --> K_if1: "i"
+    K_if1 --> K_if2: "f"
+    K_if2 --> [*]
+    K0 --> K_var1: "v"
+    K_var1 --> K_var2: "a"
+    K_var2 --> K_var3: "r"
+    K_var3 --> [*]
+    K0 --> K_else1: "e"
+    K_else1 --> K_else2: "l"
+    K_else2 --> K_else3: "s"
+    K_else3 --> K_else4: "e"
+    K_else4 --> [*]
 ```
 
-**Descrição**: 
-- Estado q0: inicial, espera letra ou underscore
-- Estado q1: aceita letras, dígitos ou underscore (loop)
-- q1 é estado de aceitação
+Cada caminho separado representa uma palavra reservada. O autômato real contém
+transições para todas as 37 keywords definidas na especificação.
 
-## 🔢 AFD para NÚMEROS INTEIROS
-
-Reconhece: `\d+` (um ou mais dígitos)
+## IDENTIFIER (identificadores)
 
 ```mermaid
 stateDiagram-v2
-    direction LR
-    
-    [*] --> q0
-    
-    q0 --> q1: 0-9
-    q1 --> q1: 0-9
-    q1 --> [*]
-    
-    note right of q0: Aguarda primeiro dígito
-    note right of q1: Aceita mais dígitos
+    [*] --> I0
+    I0 --> I1: letra/_
+    I1 --> I1: letra/dígito/_
+    I1 --> [*]
 ```
 
-**Descrição**:
-- Estado q0: inicial, espera dígito
-- Estado q1: aceita e permanece aceitando dígitos
-
-## 🔢 AFD para NÚMEROS DECIMAIS (FLOAT)
-
-Reconhece: `\d+\.\d+` (números com ponto decimal)
+## INT_LITERAL (literais inteiros)
 
 ```mermaid
 stateDiagram-v2
-    direction LR
-    
-    [*] --> q0
-    
-    q0 --> q1: 0-9
-    q1 --> q1: 0-9
-    q1 --> q2: .
-    q2 --> q3: 0-9
-    q3 --> q3: 0-9
-    q3 --> [*]
-    
-    note right of q0: Parte inteira
-    note right of q1: Dígitos antes do ponto
-    note right of q2: Encontrou ponto decimal
-    note right of q3: Parte fracionária (aceita)
+    [*] --> N0
+    N0 --> N1: "0"
+    N0 --> N2: [1-9]
+    N1 --> [*]
+    N2 --> N2: [0-9]
+    N2 --> [*]
 ```
 
-**Descrição**:
-- Estados q0-q1: reconhecem parte inteira
-- Estado q2: consome o ponto decimal
-- Estado q3: reconhece parte fracionária (final)
-
-## 📝 AFD para STRINGS
-
-Reconhece: `"[^"]*"` (texto entre aspas)
+## FLOAT_LITERAL (literais decimais)
 
 ```mermaid
 stateDiagram-v2
-    direction LR
-    
-    [*] --> q0
-    
-    q0 --> q1: "
-    q1 --> q1: qualquer caractere exceto "
-    q1 --> q2: "
-    q2 --> [*]
-    
-    note right of q0: Esperando abertura
-    note right of q1: Dentro da string
-    note right of q2: String fechada (aceita)
+    [*] --> F0
+    F0 --> F1: "0"
+    F0 --> F2: [1-9]
+    F1 --> F3: "."
+    F2 --> F2: [0-9]
+    F2 --> F3: "."
+    F3 --> F4: [0-9]
+    F4 --> F4: [0-9]
+    F4 --> [*]
 ```
 
-**Descrição**:
-- Estado q0: aguarda aspas de abertura
-- Estado q1: consome caracteres da string
-- Estado q2: string completa (final)
-
-## 🔣 AFD para OPERADORES RELACIONAIS
-
-Reconhece: `==|!=|<=|>=|<|>` (operadores de comparação)
+## SCIENTIFIC_LITERAL (notação científica)
 
 ```mermaid
 stateDiagram-v2
-    direction LR
-    
-    [*] --> q0
-    
-    q0 --> q1: =
-    q0 --> q2: !
-    q0 --> q3: <
-    q0 --> q4: >
-    
-    q1 --> q5: =
-    q2 --> q5: =
-    q3 --> q5: =
-    q4 --> q5: =
-    
-    q3 --> [*]
-    q4 --> [*]
-    q5 --> [*]
-    
-    note right of q0: Estado inicial
-    note right of q5: Operadores duplos ==, !=, <=, >=
-    note right of q3: < (aceita)
-    note right of q4: > (aceita)
+    [*] --> S0
+    S0 --> S1: "0"
+    S0 --> S2: [1-9]
+    S1 --> S3: "."
+    S1 --> S5: "e/E"
+    S1 --> S2: [0-9]
+    S2 --> S2: [0-9]
+    S2 --> S3: "."
+    S2 --> S5: "e/E"
+    S3 --> S4: [0-9]
+    S4 --> S4: [0-9]
+    S4 --> S5: "e/E"
+    S5 --> S6: "+/-"
+    S5 --> S7: [0-9]
+    S6 --> S7: [0-9]
+    S7 --> S7: [0-9]
+    S7 --> [*]
 ```
 
-**Descrição**:
-- Estado q0: lê primeiro caractere do operador
-- Estados q1-q4: operadores parciais
-- Estados q3, q4, q5: estados de aceitação
-
-## 🎯 AFD para KEYWORDS
-
-Reconhece palavras-chave como: `if`, `else`, `for`, `while`, `var`, etc.
+## STRING_DOUBLE / STRING_SINGLE (strings)
 
 ```mermaid
 stateDiagram-v2
-    direction LR
-    
-    [*] --> q0
-    
-    q0 --> if_1: i
-    if_1 --> if_2: f
-    if_2 --> [*]
-    
-    q0 --> var_1: v
-    var_1 --> var_2: a
-    var_2 --> var_3: r
-    var_3 --> [*]
-    
-    q0 --> for_1: f
-    for_1 --> for_2: o
-    for_2 --> for_3: r
-    for_3 --> [*]
-    
-    note right of q0: Início do reconhecimento
-    note right of if_2: Reconhece "if"
-    note right of var_3: Reconhece "var"
-    note right of for_3: Reconhece "for"
+    [*] --> SD0
+    SD0 --> SD1: "\""
+    SD1 --> SD2: "\\"
+    SD1 --> SD1: caractere != "\", quebra de linha
+    SD1 --> SD3: "\""
+    SD2 --> SD1: qualquer
+    SD3 --> [*]
 ```
 
-**Descrição**: AFD combinado para múltiplas keywords. Cada palavra tem seu próprio caminho até um estado final.
+O autômato de aspas simples possui a mesma estrutura substituindo o delimitador.
 
-## 🏗️ AFD Unificado do Analisador Léxico
-
-O analisador léxico completo usa **múltiplos AFDs em paralelo**, um para cada categoria de token. O algoritmo:
-
-1. **Para cada posição** no código fonte
-2. **Tenta todos os AFDs** simultaneamente
-3. **Escolhe o match mais longo** (estratégia gulosa)
-4. **Prioriza** tokens mais específicos (keywords antes de identificadores)
-
-### Arquitetura do Sistema
+## CHAR_LITERAL (caracteres)
 
 ```mermaid
-graph TD
-    A[Código Fonte] --> B[Analisador Léxico]
-    B --> C{Tentar Match}
-    C --> D[AFD: Keywords]
-    C --> E[AFD: Identificadores]
-    C --> F[AFD: Números]
-    C --> G[AFD: Strings]
-    C --> H[AFD: Operadores]
-    C --> I[AFD: Delimitadores]
-    
-    D --> J[Escolher Match Mais Longo]
-    E --> J
-    F --> J
-    G --> J
-    H --> J
-    I --> J
-    
-    J --> K[Emitir Token]
-    K --> L{Fim do Código?}
-    L -->|Não| C
-    L -->|Sim| M[Stream de Tokens]
-    
-    C -->|Nenhum Match| N[Erro Léxico]
-    N --> L
+stateDiagram-v2
+    [*] --> C0
+    C0 --> C1: "'"
+    C1 --> C2: "\\"
+    C1 --> C3: caractere != '\n', '\r', "'"
+    C2 --> C3: qualquer
+    C3 --> C4: "'"
+    C4 --> [*]
 ```
 
-## 📈 Complexidade do AFD
-
-| Aspecto | Valor |
-|---------|-------|
-| **Tempo de execução** | O(n) onde n = tamanho do código |
-| **Espaço (memória)** | O(m) onde m = número de estados |
-| **Pior caso de estados** | 2^k onde k = estados do AFN |
-| **Caso médio** | Linear em k |
-
-## 🔍 Exemplo de Reconhecimento
-
-Para o código: `var int x as 10;`
-
-### Passo a passo:
-
-1. **Posição 0**: Testa todos os AFDs
-   - AFD Keywords: reconhece "var" ✅ (3 chars)
-   - AFD Identifier: reconhece "var" ✅ (3 chars)
-   - **Prioridade**: Keywords > Identifier
-   - **Resultado**: Token(KEYWORD, "var")
-
-2. **Posição 4**: Após espaço
-   - AFD Keywords: reconhece "int" ✅ (3 chars)
-   - **Resultado**: Token(KEYWORD, "int")
-
-3. **Posição 8**: Após espaço
-   - AFD Identifier: reconhece "x" ✅ (1 char)
-   - **Resultado**: Token(IDENTIFIER, "x")
-
-4. **Posição 10**: Após espaço
-   - AFD Keywords: reconhece "as" ✅ (2 chars)
-   - **Resultado**: Token(KEYWORD, "as")
-
-5. **Posição 13**: Após espaço
-   - AFD Int: reconhece "10" ✅ (2 chars)
-   - **Resultado**: Token(INT_LITERAL, "10")
-
-6. **Posição 15**:
-   - AFD Delimitador: reconhece ";" ✅ (1 char)
-   - **Resultado**: Token(SEMICOLON, ";")
-
-### Tokens Finais:
-```
-KEYWORD       "var"
-KEYWORD       "int"
-IDENTIFIER    "x"
-KEYWORD       "as"
-INT_LITERAL   "10"
-SEMICOLON     ";"
-```
-
-## 🎨 Visualização de Estado Durante Execução
-
-Para palavra "if123":
+## OPERATOR (operadores)
 
 ```mermaid
-graph LR
-    Start[Início] -->|'i'| S1[Estado 1]
-    S1 -->|'f'| S2[Estado 2: ACEITA 'if']
-    S2 -->|'1'| S3[Estado 3: continua]
-    S3 -->|'2'| S4[Estado 4: continua]
-    S4 -->|'3'| S5[Estado 5: ACEITA 'if123']
-    
-    style S2 fill:#90EE90
-    style S5 fill:#90EE90
+stateDiagram-v2
+    [*] --> O0
+    O0 --> O1: "="
+    O1 --> O2: "="
+    O2 --> [*]
+    O0 --> O3: "+"
+    O3 --> O4: "+"
+    O4 --> [*]
+    O0 --> O5: "!"
+    O5 --> O6: "="
+    O6 --> [*]
 ```
 
-**Resultado**: Keyword "if" tem prioridade, então retorna token `KEYWORD("if")` e continua em "123".
+Os ramos representam os operadores compostos e simples. O autômato inclui
+transições para os demais símbolos listados na especificação.
 
-## 🧪 Casos de Teste
+## DELIMITER (delimitadores)
 
-| Entrada | Token Reconhecido | AFD Usado |
-|---------|-------------------|-----------|
-| `var` | KEYWORD | Keywords |
-| `variavel` | IDENTIFIER | Identificadores |
-| `123` | INT_LITERAL | Números Inteiros |
-| `3.14` | FLOAT_LITERAL | Números Decimais |
-| `"hello"` | STRING_LITERAL | Strings |
-| `==` | RELOP | Operadores Relacionais |
-| `+` | ARITHOP | Operadores Aritméticos |
-| `{` | LBRACE | Delimitadores |
+```mermaid
+stateDiagram-v2
+    [*] --> D0
+    D0 --> [*]: qualquer de (){}[];,.
+```
 
-## ✅ Propriedades Garantidas
+## WHITESPACE (espaços em branco)
 
-O AFD construído garante:
+```mermaid
+stateDiagram-v2
+    [*] --> W0
+    W0 --> W1: espaço/tab/\n/\r
+    W1 --> W1: espaço/tab/\n/\r
+    W1 --> [*]
+```
 
-1. **Determinismo**: Para cada estado e símbolo, há no máximo uma transição
-2. **Completude**: Todos os tokens válidos são reconhecidos
-3. **Maximal Munch**: Sempre escolhe o match mais longo possível
-4. **Prioridade**: Keywords têm precedência sobre identificadores
-5. **Eficiência**: Tempo linear O(n) na análise
+## LINE_COMMENT (comentário de linha)
 
-## 📚 Referências
+```mermaid
+stateDiagram-v2
+    [*] --> L0
+    L0 --> L1: "/"
+    L1 --> L2: "/"
+    L2 --> L2: caractere != quebra de linha
+    L2 --> L3: quebra de linha
+    L3 --> [*]
+```
 
-- **Algoritmo de Construção de Subconjuntos**: Aho, Sethi, Ullman - "Compilers: Principles, Techniques, and Tools"
-- **Implementação**: `/src/lexer/afn_to_afd.py`
-- **Uso**: `/src/lexer/lexer.py`
+## BLOCK_COMMENT (comentário de bloco)
 
----
+```mermaid
+stateDiagram-v2
+    [*] --> B0
+    B0 --> B1: "/"
+    B1 --> B2: "*"
+    B2 --> B2: qualquer
+    B2 --> B3: "*"
+    B3 --> B2: qualquer exceto "/"
+    B3 --> B4: "/"
+    B4 --> [*]
+```
 
-**Nota**: Este AFD é gerado automaticamente a partir das expressões regulares definidas na especificação da linguagem. Modificações nas regex resultarão em AFDs diferentes.
+Cada um desses autômatos foi implementado na pasta `Compiladores/modulos_lexicos`
+utilizando estruturas de dados explícitas, e os testes individuais podem ser
+executados com `python -m unittest discover Compiladores/tests`.

@@ -24,11 +24,11 @@ from dataclasses import dataclass
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../Compiladores'))
 
 try:
-    from automatos.estruturas import DFA as AFD
-    from automatos import compile_regex_to_dfa
+    from modulos_lexicos.estruturas import DFA as AFD
+    from modulos_lexicos import compile_regex_to_dfa
 except ImportError:
     print("❌ Erro: Não foi possível importar módulos de autômatos")
-    print("Certifique-se de que o diretório Compiladores/automatos existe")
+    print("Certifique-se de que o diretório Compiladores/modulos_lexicos existe")
     sys.exit(1)
 
 

@@ -249,7 +249,7 @@ O sistema gera relatórios detalhados incluindo:
 ├── main.py                    # Menu principal e testes básicos
 ├── teste_analise_lexica.py    # Sistema completo de análise léxica
 ├── codigo_exemplo.txt         # Arquivo de exemplo da linguagem
-├── automatos/                 # Módulos dos autômatos
+├── modulos_lexicos/           # Módulos dos autômatos
 │   ├── __init__.py
 │   ├── compilador.py          # Compilação regex → DFA
 │   ├── constantes.py          # Tokens e constantes

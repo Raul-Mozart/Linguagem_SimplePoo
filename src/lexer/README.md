@@ -235,8 +235,8 @@ Este analisador é **compatível** com o sistema existente em `Compiladores/`:
 
 ```python
 # Usa os autômatos já implementados
-from automatos import compile_regex_to_dfa
-from automatos.estruturas import DFA
+from modulos_lexicos import compile_regex_to_dfa
+from modulos_lexicos.estruturas import DFA
 
 # Compila regex para AFD
 afd = compile_regex_to_dfa(r'\d+')

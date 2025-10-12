@@ -44,7 +44,7 @@ compiladores/
 │       └── afd_final.md         # ✅ Diagrama Mermaid do AFD
 │
 ├── Compiladores/                # Sistema existente (autômatos)
-│   └── automatos/
+│   └── modulos_lexicos/
 │       ├── thompson.py          # Construção de Thompson (regex → AFN)
 │       ├── subconjuntos.py      # Conversão AFN → AFD
 │       ├── estruturas.py        # Estruturas de dados
@@ -455,7 +455,7 @@ var int x as 10; @ # $
 
 ## 🔗 Integração
 
-O sistema se integra perfeitamente com o código existente em `Compiladores/automatos/`:
+O sistema se integra perfeitamente com o código existente em `Compiladores/modulos_lexicos/`:
 - Usa as estruturas de dados definidas
 - Compatível com sistema de compilação regex→DFA
 - Estende funcionalidades existentes

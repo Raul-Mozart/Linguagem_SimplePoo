@@ -2,14 +2,21 @@
 
 Um compilador completo que converte expressões regulares em autômatos finitos determinísticos (DFA), implementado em Python.
 
+Além da conversão automática, o projeto agora inclui uma coleção de autômatos
+determinísticos construídos manualmente (sem uso de expressões regulares) para
+reconhecer os tokens da linguagem SimplePoo.
+
 ## Estrutura do Projeto
 
 ```
 Compiladores/
-├── automatos/              # Pacote principal
+├── modulos_lexicos/        # Pacote principal
 │   ├── __init__.py           # Interface do pacote
-│   ├── constantes.py         # Caracteres e tokens comuns
+│   ├── constantes.py         # Caracteres e tokens comuns (listas explícitas)
 │   ├── estruturas.py         # Classes NFA, DFA, EstadoNFA
+│   ├── dfa.py                # Implementação mínima de DFA
+│   ├── afd_tokens.py         # Definição dos AFDs da linguagem SimplePoo
+│   ├── analisador.py         # Tokenizador baseado nos AFDs
 │   ├── tokenizer.py          # Análise léxica
 │   ├── parser.py             # Conversão para postfix
 │   ├── thompson.py           # Construção de NFA
@@ -22,9 +29,21 @@ Compiladores/
 
 ## Como Usar
 
-### Uso Básico
+### Uso Básico (Autômatos manuais)
 ```python
-from automatos import compile_regex_to_dfa
+from modulos_lexicos.analisador import LexicalAnalyzer
+
+codigo = "var int idade as 25;"
+analyzer = LexicalAnalyzer()
+tokens, erros = analyzer.tokenize(codigo)
+
+for token in tokens:
+  print(token.type, token.lexeme)
+```
+
+### Uso Básico (Compilador de Regex)
+```python
+from modulos_lexicos import compile_regex_to_dfa
 
 # Compila regex em autômato
 dfa = compile_regex_to_dfa(r"\d+")  # números
@@ -37,6 +56,9 @@ print(dfa.accepts("abc"))    # False
 ### Executar Testes
 ```bash
 python main.py
+
+# ou apenas os testes de unidade dos AFDs
+python -m unittest discover Compiladores/tests
 ```
 
 ## Funcionalidades
