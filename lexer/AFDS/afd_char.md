@@ -1,3 +1,4 @@
+```mermaid
 stateDiagram-v2
     [*] --> q0
     q0 --> q1 : '
@@ -12,3 +13,4 @@ stateDiagram-v2
     q4 --> q5 : '
     
     q5 --> [*]
+```

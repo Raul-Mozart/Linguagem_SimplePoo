@@ -1,3 +1,4 @@
+```mermaid
 stateDiagram-v2
     [*] --> q0
     
@@ -17,3 +18,4 @@ stateDiagram-v2
     
     q3 --> [*] %% Fim String (dupla)
     q6 --> [*] %% Fim String (simples)
+```

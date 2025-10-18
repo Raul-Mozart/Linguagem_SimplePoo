@@ -1,3 +1,4 @@
+```mermaid
 stateDiagram-v2
     [*] --> q0
     q0 --> q1 : /
@@ -16,3 +17,4 @@ stateDiagram-v2
     q4_block_end --> q5_final : /
     
     q5_final --> [*] %% Fim (bloco)
+```

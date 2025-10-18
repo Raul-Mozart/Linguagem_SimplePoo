@@ -1,3 +1,4 @@
+```mermaid
 stateDiagram-v2
     [*] --> q0
 
@@ -16,3 +17,4 @@ stateDiagram-v2
     q_minus_minus --> [*]   %% Aceita "--"
     q_minus --> q_minus_gt : >
     q_minus_gt --> [*]        %% Aceita "->"
+```

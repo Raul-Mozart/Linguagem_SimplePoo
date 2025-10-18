@@ -1,3 +1,4 @@
+```mermaid
 stateDiagram-v2
     [*] --> q0
     q0 --> q1 : dígito
@@ -21,3 +22,4 @@ stateDiagram-v2
     q5 --> q6 : dígito
     q6 --> q6 : dígito
     q6 --> [*]
+```

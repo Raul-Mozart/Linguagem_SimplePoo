@@ -1,3 +1,4 @@
+```mermaid
 stateDiagram-v2
     [*] --> q0
 
@@ -15,3 +16,4 @@ stateDiagram-v2
     q_f --> q_fo : o
     q_fo --> q_for : r
     q_for --> [*] %% Aceita "for"
+```
