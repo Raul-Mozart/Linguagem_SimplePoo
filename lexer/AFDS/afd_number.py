@@ -1,4 +1,4 @@
-from .afd_base import AFD
+from afd_base import AFD
 import string
 
 class AFDNumber(AFD):
