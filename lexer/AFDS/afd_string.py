@@ -6,8 +6,10 @@ class AFDString(AFD):
     Regex: "(?:\\.|[^"\\])*" | '(?:\\.|[^'\\])*'
     """
     def __init__(self):
-        # Alfabeto: qualquer caractere imprimível + aspas e barra invertida
-        alphabet = set(map(chr, range(32, 127)))  # Caractere ASCII imprimível (32-126)
+        # Alfabeto: qualquer caractere imprimível incluindo acentos + aspas e barra invertida
+        alphabet = set(map(chr, range(32, 127)))  # ASCII imprimível
+        # Adiciona caracteres acentuados comuns
+        alphabet.update(map(chr, range(160, 256))) # Adiciona Bloco "Latin-1 Supplement" (inclui É, á, ç, ñ, ö, etc.)
 
         states = {'q0', 'q1', 'q2', 'q3', 'q4', 'q5', 'q6'}
         initial_state = 'q0'
