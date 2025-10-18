@@ -1,12 +1,12 @@
-from afd_ident import AFDIdent
-from afd_keyword import AFDKeyword  
-from afd_number import AFDNumber
-from afd_operator import AFDOperator
-from afd_string import AFDString
-from afd_char import AFDChar
-from afd_comment import AFDComment
-from afd_delimiters import AFDDelimiters
-from afd_whitespace import AFDWhitespace
+from AFDS.afd_ident import AFDIdent
+from AFDS.afd_keyword import AFDKeyword  
+from AFDS.afd_number import AFDNumber
+from AFDS.afd_operator import AFDOperator
+from AFDS.afd_string import AFDString
+from AFDS.afd_char import AFDChar
+from AFDS.afd_comment import AFDComment
+from AFDS.afd_delimiters import AFDDelimiters
+from AFDS.afd_whitespace import AFDWhitespace
 
 class Token:
     """Representa um token reconhecido pelo lexer"""
