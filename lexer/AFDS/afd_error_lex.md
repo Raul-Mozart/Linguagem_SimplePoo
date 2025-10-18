@@ -1,6 +1,6 @@
 ```mermaid
 stateDiagram-v2
     [*] --> q0
-    q0 --> q1 : qualquer char inválido (ex: @, #, $)
+    q0 --> q1 : "char inválido (@ # $ etc)"
     q1 --> [*]
 ```
