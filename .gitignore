@@ -1,1 +1,9 @@
 Analise Léxica em compiladores.md
+base_conhecimento/
+parser/README_PARSER.md
+parser/exemplo_semantic.py
+parser/semantic_analyzer.py
+parser/README_SEMANTIC.md
+parser/compilador_completo.py
+parser/test_semantic.py
+parser/symbol_table.py
