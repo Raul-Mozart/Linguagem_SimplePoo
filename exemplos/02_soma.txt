@@ -1,0 +1,6 @@
+function main() {
+    int x = 10;
+    int y = 20;
+    int soma = x + y;
+    print(soma);
+}

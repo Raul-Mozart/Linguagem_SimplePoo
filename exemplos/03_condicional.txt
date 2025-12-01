@@ -1,0 +1,9 @@
+function main() {
+    int idade = 18;
+    
+    if (idade >= 18) {
+        print(1);
+    } else {
+        print(0);
+    }
+}

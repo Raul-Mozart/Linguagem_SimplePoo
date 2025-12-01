@@ -1,10 +1,6 @@
 Analise Léxica em compiladores.md
 base_conhecimento/
-parser/README_PARSER.md
-parser/README_SEMANTIC.md
-parser/compilador_completo.py
 parser/exemplo1.ll
 parser/exemplo3.ll
 parser/exemplo4.ll
 parser/exemplo5.ll
-parser/README_CODEGEN.md

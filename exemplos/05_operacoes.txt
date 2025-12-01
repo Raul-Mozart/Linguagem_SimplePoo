@@ -1,0 +1,16 @@
+function main() {
+    int a = 10;
+    int b = 3;
+    
+    int soma = a + b;
+    int sub = a - b;
+    int mult = a * b;
+    int div = a / b;
+    int mod = a % b;
+    
+    print(soma);
+    print(sub);
+    print(mult);
+    print(div);
+    print(mod);
+}
